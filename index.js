@@ -14,14 +14,23 @@ const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: true});
 
 bot.on('message', async (msg) => {
+    console.log("Start routing")
     const chat_id = msg.chat.id;
-    const text = msg.text;
+    const json_msg = JSON.parse(msg.text);
     const from_user = {
         id: msg.from.id,
         username: msg.from.username,
     }
 
-    bot.sendMessage(process.env.CHANNEL, text, {
+    const text = `${json_msg.text}\n\n`          +
+                `From user: ${json_msg.from}\n`   +
+                `Group: ${json_msg.group}\n`      +
+                `Link: ${json_msg.link}\n`       +
+                `Keys: ${json_msg.keywords}`;
+
+    console.log("new message:", text)
+
+    bot.sendMessage(json_msg.target, text, {
         reply_markup: {}
     }).then();
 })
