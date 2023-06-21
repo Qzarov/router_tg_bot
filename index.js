@@ -22,9 +22,16 @@ bot.on('message', async (msg) => {
         username: msg.from.username,
     }
 
+    let source = "";
+    if (json_msg.hasOwnProperty("group")) {
+        source = `From user: ${json_msg.from}\n` +
+                 `Group: ${json_msg.group}\n`
+    } else if (json_msg.hasOwnProperty("channel")) {
+        source = `Channel: ${json_msg.channel}\n`
+    }
+
     const text = `${json_msg.text}\n\n`          +
-                `From user: ${json_msg.from}\n`   +
-                `Group: ${json_msg.group}\n`      +
+                 source +
                 `Link: ${json_msg.link}\n`       +
                 `Keys: ${json_msg.keywords}`;
 
