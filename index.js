@@ -29,7 +29,7 @@ bot.on('message', async (msg) => {
 
     let source = "";
     if (json_msg.hasOwnProperty("group")) {
-        source = `From user: ${json_msg.from}\n` +
+        source = // `From user: ${json_msg.from}\n` +
                  `Group: ${json_msg.group}\n`
     } else if (json_msg.hasOwnProperty("channel")) {
         source = `Channel: ${json_msg.channel}\n`
@@ -60,7 +60,7 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
 
     let messageSource = '';
     if (body.hasOwnProperty("group")) {
-        messageSource = `From user: ${body.from}\n` +
+        messageSource = // `From user: ${body.from}\n` +
                         `Group: ${body.group}\n`
     } else if (body.hasOwnProperty("channel")) {
         messageSource = `Channel: ${body.channel}\n`
