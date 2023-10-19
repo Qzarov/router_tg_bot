@@ -1,5 +1,6 @@
 {
   "name": "router_tg_bot",
+  "type":"module",
   "version": "1.0.0",
   "dependencies": {
     "body-parser": "^1.20.2",
