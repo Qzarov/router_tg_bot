@@ -116,30 +116,43 @@ app.get('/', (request, response) => {
 
 app.post(`/api/router/message`, jsonParser, (req, res) => {
     // const authData = req.auth
+    console.log("get post request:", res)
 
     if (!req.body) return res.sendStatus(400);
     const body = req.body;
 
-    let messageSource = '';
+    let message = body.text + '\n\n';
+
     if (body.hasOwnProperty("group")) {
-        messageSource = // `From user: ${body.from}\n` +
+        message += // `From user: ${body.from}\n` +
                         `Group: ${body.group}\n`
     } else if (body.hasOwnProperty("channel")) {
-        messageSource = `Channel: ${body.channel}\n`
+        message += `Channel: ${body.channel}\n`
     }
 
-    const text = `${body.text}\n\n`          +
-        messageSource +
-        `Link: ${body.link}\n`       +
-        `Keys: ${body.keywords}`;
+    if (body.hasOwnProperty("link")) {
+        message += `Link: ${body.link}\n`
+    }
 
-    console.log("new message:", text)
+    if (body.hasOwnProperty("keywords")) {
+        message += `Keys: ${body.keywords}\n`
+    }
 
-    bot.sendMessage(body.target, text, {
-        reply_markup: {}
-    }).then();
+    console.log("new message:", message)
+    try {
+        bot.sendMessage(body.target, message, {
+            // parse_mode: `Markdown`,
+            reply_markup: {}
+        }).then();
 
-    res.sendStatus(200)
+        res.sendStatus(200)
+
+    } catch (err) {
+        console.log(`Error occured: ${err}`)
+    }
+
+
+    
 })
 
 const port = 8000
