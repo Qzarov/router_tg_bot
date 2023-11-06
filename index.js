@@ -1,10 +1,8 @@
-// const TelegramBot = require('node-telegram-bot-api');
-import TelegramBot from 'node-telegram-bot-api'
 import express from 'express'
 import bodyParser from 'body-parser'
 
 import {serverAddress, tgBotTokens, supportedPlatforms} from './config.js'
-
+import { bots } from './sources/bots.js'
 
 console.log(`Server address: ${serverAddress}`)
 const app = express();
@@ -14,15 +12,7 @@ app.use(bodyParser.urlencoded({
     extended: true,
 }));
 
-//const token = process.env.BOT_TOKEN;
-// const bot = new TelegramBot(token, {polling: true});
 const jsonParser = bodyParser.json();
-
-let bots = {}
-for (const [ name, token ] of Object.entries(tgBotTokens)) {
-    console.log(`adding bot ${name} with token ${token}`)
-    bots[name] = new TelegramBot(token, {polling: false});
-}
 
 app.get('/', (request, response) => {
     console.log(`URL: ${request.url}`);
@@ -31,7 +21,7 @@ app.get('/', (request, response) => {
 
 app.post(`/api/router/message`, jsonParser, (req, res) => {
     // const authData = req.auth
-    console.log("get post request:", res)
+    // console.log("get post request:", res)
 
     if (!req.body) return res.sendStatus(400);
     const body = req.body;
