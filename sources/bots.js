@@ -55,8 +55,25 @@ async function handleInChatAdding(bot, msg) {
                 reply_markup: {}
             }).then();
         } catch (err) {
-            console.log(`Err: ${err}`)
+            const msg = `Router bot catch an error while getting "botName": ${err}`
+            console.log(msg)
+            sendErrorMessage(msg)
         }
 
     }
+}
+
+async function sendErrorMessage(message) {
+    try {
+        await bots[errorsSenderBot].sendMessage(chat.id, message, {
+            parse_mode: `Markdown`,
+            reply_markup: {}
+        }).then();
+    } catch (err) {
+        console.log(`⛔️  Err: ${err}`)
+    }
+}
+
+export {
+    sendErrorMessage
 }

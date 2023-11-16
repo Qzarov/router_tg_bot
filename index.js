@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import {serverAddress, tgBotTokens, supportedPlatforms} from './config.js'
-import { bots } from './sources/bots.js'
+import { bots, sendErrorMessage } from './sources/bots.js'
 
 console.log(`Server address: ${serverAddress}`)
 const app = express();
@@ -16,7 +16,7 @@ const jsonParser = bodyParser.json();
 
 app.get('/', (request, response) => {
     console.log(`URL: ${request.url}`);
-    response.send('Parser, is it you?');
+    response.send('Scanner, I finally found you!');
 });
 
 app.post(`/api/router/message`, jsonParser, (req, res) => {
@@ -34,7 +34,9 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
             }
             platform = body.platform;
         } catch (err) {
-            console.log(err)
+            msg = `Router bot catch an error while getting "platform": ${err}`
+            console.log(msg)
+            sendErrorMessage(msg)
         }
     }
 
@@ -47,7 +49,9 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
             }
             botName = body.botName;
         } catch (err) {
-            console.log(err)
+            const msg = `Router bot catch an error while getting "botName": ${err}`
+            console.log(msg)
+            sendErrorMessage(msg)
         }
         botName = body.botName;
     }
@@ -83,13 +87,18 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
         res.sendStatus(200)
 
     } catch (err) {
-        console.log(`Error occured: ${err}`)
+        const msg = `Router bot catch an error while sending message: ${err}`
+        console.log(msg)
+        sendErrorMessage(msg)
     }
 })
 
 const port = 8000
 const server = app.listen(port, (error) => {
-    if (error) return console.log(`Error: ${error}`);
+    if (error) {
+        sendErrorMessage(msg)
+        return console.log(`Error: ${error}`);
+    }
 
     console.log(`Server listening on port ${server.address().port}\n`);
 })
