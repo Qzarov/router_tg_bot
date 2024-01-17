@@ -1,8 +1,10 @@
 import TelegramBot from 'node-telegram-bot-api'
 import { tgBotTokens } from '../config.js'
+import { errorsSenderBot } from "../config.js"
 
 
 export let bots = {}
+
 for (const [ name, token ] of Object.entries(tgBotTokens)) {
     console.log(`adding bot ${name} with token ${token}`)
     bots[name] = new TelegramBot(token, {polling: true});

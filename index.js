@@ -51,6 +51,8 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
         } catch (err) {
             const msg = `Router bot catch an error while getting "botName": ${err}`
             console.log(msg)
+            console.log(`botNamesList: ${JSON.stringify(botNamesList)}`)
+            console.log(`response body: ${JSON.stringify(body)}`)
             sendErrorMessage(msg)
         }
         botName = body.botName;
