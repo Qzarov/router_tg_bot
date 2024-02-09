@@ -10,24 +10,30 @@ for (const [ name, token ] of Object.entries(tgBotTokens)) {
     bots[name] = new TelegramBot(token, {polling: true});
 }
 
-const trueRouterBot = bots["TrueRouterBot"]
-trueRouterBot.on('message', async (msg) => {
-    console.log(`trueRouterBot get message: ${msg.text}`)
-    await trueRouterBot.sendMessage(msg.from.id, msg.text, {
-        // parse_mode: `Markdown`,
-        reply_markup: {}
-    }).then();
-})
+if (bots["arbitragescanner_message_bot"]) {
+    const trueRouterBot = bots["TrueRouterBot"]
+    trueRouterBot.on('message', async (msg) => {
+        console.log(`trueRouterBot get message: ${msg.text}`)
+        await trueRouterBot.sendMessage(msg.from.id, msg.text, {
+            // parse_mode: `Markdown`,
+            reply_markup: {}
+        }).then();
+    })
+}
 
-const arbitragescannerMessageBot = bots["arbitragescanner_message_bot"]
-arbitragescannerMessageBot.on('my_chat_member', async (msg) => {
-    await handleInChatAdding(arbitragescannerMessageBot, msg)
-})
+if (bots["arbitragescanner_message_bot"]) {
+    const arbitragescannerMessageBot = bots["arbitragescanner_message_bot"]
+    arbitragescannerMessageBot.on('my_chat_member', async (msg) => {
+        await handleInChatAdding(arbitragescannerMessageBot, msg)
+    })
+}
 
-const rhinoLiveScannerBot = bots["rhino_live_scanner_bot"]
-rhinoLiveScannerBot.on('my_chat_member', async (msg) => {
-    await handleInChatAdding(rhinoLiveScannerBot, msg)
-})
+if (bots["NFTNotifierBot"]) {
+    const nftScannerBot = bots["NFTNotifierBot"]
+    nftScannerBot.on('my_chat_member', async (msg) => {
+        await handleInChatAdding(nftScannerBot, msg)
+    })
+}
 
 async function handleInChatAdding(bot, msg) {
     console.log(`handleInChatAdding!`)
@@ -49,7 +55,7 @@ async function handleInChatAdding(bot, msg) {
     }
     console.log(`new member status: ${new_chat_member.status}`)
     if (new_chat_member.status !== "kicked") {
-        const text = `This channel is private. You can connect it to the bot terminal via the channel ID: \`${chat.id}\``
+        const text = `You can connect this channel to the bot terminal via the channel ID: \`${chat.id}\``
         console.log(chat.id, text)
         try {
             await bot.sendMessage(chat.id, text, {

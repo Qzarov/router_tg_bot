@@ -1,8 +1,9 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import {serverAddress, tgBotTokens, supportedPlatforms} from './config.js'
+import {serverAddress, tgBotTokens, supportedPlatforms, serverPort} from './config.js'
 import { bots, sendErrorMessage } from './sources/bots.js'
+
 
 console.log(`Server address: ${serverAddress}`)
 const app = express();
@@ -21,7 +22,7 @@ app.get('/', (request, response) => {
 
 app.post(`/api/router/message`, jsonParser, (req, res) => {
     // const authData = req.auth
-    // console.log("get post request:", res)
+    console.log("get new post request:", req.body)
 
     if (!req.body) return res.sendStatus(400);
     const body = req.body;
@@ -95,7 +96,7 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
     }
 })
 
-const port = 8000
+const port = serverPort
 const server = app.listen(port, (error) => {
     if (error) {
         sendErrorMessage(msg)
