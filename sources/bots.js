@@ -35,6 +35,13 @@ if (bots["NFTNotifierBot"]) {
     })
 }
 
+if (bots["reddit_streamer_bot"]) {
+    const redditScannerBot = bots["reddit_streamer_bot"]
+    redditScannerBot.on('my_chat_member', async (msg) => {
+        await handleInChatAdding(redditScannerBot, msg)
+    })
+}
+
 async function handleInChatAdding(bot, msg) {
     console.log(`handleInChatAdding!`)
 
