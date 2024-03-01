@@ -83,7 +83,7 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
         }
 
         bots[botName].sendMessage(body.target, message, {
-            // parse_mode: `Markdown`,
+            parse_mode: `Markdown`,
             reply_markup: {}
         }).then();
 

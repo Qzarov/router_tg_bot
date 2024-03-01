@@ -10,7 +10,7 @@ for (const [ name, token ] of Object.entries(tgBotTokens)) {
     bots[name] = new TelegramBot(token, {polling: true});
 }
 
-if (bots["arbitragescanner_message_bot"]) {
+if (bots["TrueRouterBot"]) {
     const trueRouterBot = bots["TrueRouterBot"]
     trueRouterBot.on('message', async (msg) => {
         console.log(`trueRouterBot get message: ${msg.text}`)
