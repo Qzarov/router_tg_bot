@@ -42,6 +42,13 @@ if (bots["reddit_streamer_bot"]) {
     })
 }
 
+if (bots["arbitragescanner_nft_bot"]) {
+    const arbitragescannerNftBot = bots["arbitragescanner_nft_bot"]
+    arbitragescannerNftBot.on('my_chat_member', async (msg) => {
+        await handleInChatAdding(arbitragescannerNftBot, msg)
+    })
+}
+
 async function handleInChatAdding(bot, msg) {
     console.log(`handleInChatAdding!`)
 
