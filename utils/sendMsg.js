@@ -24,7 +24,7 @@ async function send(text, targetId) {
         headers: headers
     })
 
-    console.log(`responce:`, res.data)
+    console.log(`response:`, res.data)
 }
 
 

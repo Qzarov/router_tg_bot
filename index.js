@@ -79,18 +79,19 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
     console.log("new message:", message)
     try {
         if (!body.hasOwnProperty("target")) {
+            console.log("message:", message)
             throw err(`⛔️ Property "target" is not provided`)
         }
 
         bots[botName].sendMessage(body.target, message, {
-            parse_mode: `Markdown`,
+            // parse_mode: `Markdown`,
             reply_markup: {}
         }).then();
 
         res.sendStatus(200)
 
     } catch (err) {
-        const msg = `Router bot catch an error while sending message: ${err}`
+        const msg = `Router bot catch an error while sending message: ${JSON.stringify(err)}`
         console.log(msg)
         sendErrorMessage(msg)
     }
