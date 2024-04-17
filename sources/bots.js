@@ -1,6 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api'
-import { tgBotTokens } from '../config.js'
-import { errorsSenderBot } from "../config.js"
+import { tgBotTokens, errorsSenderBot } from '../config.js'
 
 
 export let bots = {}
@@ -8,6 +7,18 @@ export let bots = {}
 for (const [ name, token ] of Object.entries(tgBotTokens)) {
     console.log(`adding bot ${name} with token ${token}`)
     bots[name] = new TelegramBot(token, {polling: true});
+}
+
+
+if (bots["DeScienzz_bot"]) {
+    const bot = bots["DeScienzz_bot"]
+    bot.on('message', async (msg) => {
+        console.log(`DeScienzz_bot get message: ${msg.text}`)
+        await bot.sendMessage(msg.from.id, msg.text, {
+            // parse_mode: `Markdown`,
+            reply_markup: {}
+        }).then();
+    })
 }
 
 if (bots["TrueRouterBot"]) {

@@ -1,19 +1,22 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import {serverAddress, tgBotTokens, supportedPlatforms, serverPort} from './config.js'
+import {rabbitConfig, serverAddress, tgBotTokens, supportedPlatforms, serverPort} from './config.js'
 import { bots, sendErrorMessage } from './sources/bots.js'
+import MessageBroker from './sources/services/messageBroker.js'
+import { handleTelegramMessage, handleRedditMessage } from './sources/handlers/messageReceived.js'
 
-
-console.log(`Server address: ${serverAddress}`)
 const app = express();
 app.use(express.static(serverAddress));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true,
-}));
+app.use(bodyParser.urlencoded({extended: true,}));
 
 const jsonParser = bodyParser.json();
+const mb = new MessageBroker(rabbitConfig)
+await mb.init()
+mb.subscribe("tg-messages", handleTelegramMessage)
+mb.subscribe("rd-messages", handleRedditMessage)
+
 
 app.get('/', (request, response) => {
     console.log(`URL: ${request.url}`);
@@ -95,7 +98,7 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
         console.log(msg)
         sendErrorMessage(msg)
     }
-})
+});
 
 const port = serverPort
 const server = app.listen(port, (error) => {
@@ -104,5 +107,5 @@ const server = app.listen(port, (error) => {
         return console.log(`Error: ${error}`);
     }
 
-    console.log(`Server listening on port ${server.address().port}\n`);
-})
+    console.log(`Server ${serverAddress}:${server.address().port} listening\n`);
+});
