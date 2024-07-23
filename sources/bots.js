@@ -46,6 +46,13 @@ if (bots["NFTNotifierBot"]) {
     })
 }
 
+if (bots["arbitragescanner_reddit_bot"]) {
+    const redditProdScannerBot = bots["arbitragescanner_reddit_bot"]
+    redditProdScannerBot.on('my_chat_member', async (msg) => {
+        await handleInChatAdding(redditProdScannerBot, msg)
+    })
+}
+
 if (bots["reddit_streamer_bot"]) {
     const redditScannerBot = bots["reddit_streamer_bot"]
     redditScannerBot.on('my_chat_member', async (msg) => {

@@ -91,6 +91,7 @@ app.post(`/api/router/message`, jsonParser, (req, res) => {
             reply_markup: {}
         }).then();
 
+        res.json({ ok: true })
         res.sendStatus(200)
 
     } catch (err) {
