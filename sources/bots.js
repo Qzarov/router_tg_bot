@@ -67,6 +67,13 @@ if (bots["arbitragescanner_nft_bot"]) {
     })
 }
 
+if (bots["MaxProfitTelegrammScanRobot"]) {
+    const MaxProfitTelegrammScanRobot = bots["MaxProfitTelegrammScanRobot"]
+    MaxProfitTelegrammScanRobot.on('my_chat_member', async (msg) => {
+        await handleInChatAdding(MaxProfitTelegrammScanRobot, msg)
+    })
+}
+
 async function handleInChatAdding(bot, msg) {
     console.log(`handleInChatAdding!`)
 
